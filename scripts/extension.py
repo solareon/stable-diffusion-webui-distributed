@@ -360,7 +360,9 @@ class Script(scripts.Script):
                 job.worker.loaded_model = name
                 job.worker.loaded_vae = vae
 
-            t = Thread(target=job.worker.request, args=(payload, option_payload, sync, ))
+            # Create a copy of the payload dictionary
+            thread_payload = copy.deepcopy(payload)
+            t = Thread(target=job.worker.request, args=(thread_payload, option_payload, sync,))
 
             t.start()
             Script.worker_threads.append(t)
